@@ -1,13 +1,16 @@
 package classes.projects.university;
 
-public class Student extends Person{
+public class Student extends Person {
     private int course;
+    private Courses trainingCourses;
     private double academicPerformance;
 
-    public Student(int id, String firstName, String lastName, int course, double academicPerformance) {
-        super(id,firstName, lastName);
+    private String faculty;
+
+    public Student(String firstName, String lastName, int course) {
+        super(firstName, lastName);
         this.course = course;
-        this.academicPerformance = academicPerformance;
+        this.faculty = null;
     }
 
     public int getCourse() {
@@ -18,11 +21,23 @@ public class Student extends Person{
         this.course = course;
     }
 
+    public Courses getTrainingCourses() {
+        return trainingCourses;
+    }
+
+    public void setTrainingCourses(Courses trainingCourses) {
+        this.trainingCourses = trainingCourses;
+    }
+
     public double getAcademicPerformance() {
         return academicPerformance;
     }
 
     public void setAcademicPerformance(double academicPerformance) {
-        this.academicPerformance = academicPerformance;
+        if (academicPerformance >= 0 && academicPerformance <= 10) {
+            this.academicPerformance = academicPerformance;
+        } else {
+            System.out.println("Mark " + academicPerformance + " isn't valid. Current average mark " + this.academicPerformance);
+        }
     }
 }

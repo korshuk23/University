@@ -1,22 +1,17 @@
 package classes.projects.university;
 
 public class Person {
-    private int id;
-    private String firstName;
-    private String lastName;
+    private final long id;
+    private String firstName, lastName;
 
-    public Person(int id, String firstName, String lastName) {
-        this.id = id;
+    public Person(String firstName, String lastName) {
+        this.id = (long) (1 + Math.random() * 100);
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {

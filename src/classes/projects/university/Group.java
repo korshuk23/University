@@ -3,9 +3,17 @@ package classes.projects.university;
 import java.util.Arrays;
 
 public class Group {
+    private String groupName;
+    private String faculty;
     private Teacher curator;
-    private Student[] students = new Student[8];
+    private final Student[] students = new Student[8];
     private int currCountOfStudents;
+
+    public Group(String groupName, String faculty, Teacher curator) {
+        this.groupName = groupName;
+        this.faculty = faculty;
+        this.curator = curator;
+    }
 
     public Teacher getCurator() {
         return curator;
@@ -16,31 +24,45 @@ public class Group {
     }
 
     public Student[] getStudents() {
-        return students;
+        return students.clone();
+    }
+
+    public void printTrainingCoursesInfo() {
+        System.out.println("\t\t\t\t Group: " + groupName);
+        for (Student student : students) {
+            if (student.getTrainingCourses() != null) {
+                System.out.println(student.getFirstName() + " " + student.getLastName() + " - studying in " + student.getTrainingCourses());
+            } else {
+                System.out.println(student.getFirstName() + " " + student.getLastName() + " - [not enroll at any courses]");
+            }
+        }
     }
 
     public boolean addStudents(Student... studentsToAdd) {
         boolean isAdded = false;
-        for (Student stud : studentsToAdd) {
-            if (studentsToAdd.length <= students.length && currCountOfStudents <= students.length) {
-                students[currCountOfStudents++] = stud;
-                isAdded = true;
+        if (studentsToAdd.length <= students.length - currCountOfStudents) {
+            for (Student stud : studentsToAdd) {
+                if (currCountOfStudents <= students.length) {
+                    students[currCountOfStudents++] = stud;
+                    isAdded = true;
+                }
             }
-            isAdded = false;
         }
         return isAdded;
     }
 
-    public boolean deleteStudent(int id) {
+    public boolean deleteStudent(long id) {
         boolean isDeleted = false;
-        for (int i = 0; i < students.length; i++) {
+        int initialNumber = currCountOfStudents;
+        for (int i = 0; i < initialNumber; i++) {
             if (!isDeleted && students[i].getId() == id) {
-                students[i] = students[i + 1];
+                students[i] = null;
                 currCountOfStudents--;
                 isDeleted = true;
             }
-            if (isDeleted & i < students.length - 1) {
+            if (isDeleted && i < students.length - 1) {
                 students[i] = students[i + 1];
+                students[i + 1] = null;
             }
         }
         return isDeleted;
@@ -48,9 +70,18 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Group\n" +
-                "[Curator is " + curator + "]\n" +
-                Arrays.toString(students) +
-                "Count of students in group is " + currCountOfStudents;
+        String output = "";
+        Student student;
+        System.out.println("\t\t\t\tGroup name: " + groupName + ",\n" +
+                "\tFaculty: " + faculty + ",\n " +
+                "\t  Students count: "
+                + currCountOfStudents + ", curator: " + curator.getFirstName() + " " + curator.getLastName());
+        System.out.println("id\tFirst name\tLast name\t Course\t\tAcademic performance");
+        for (int i = 0; i < currCountOfStudents; i++) {
+            student = students[i];
+            output = output.concat(student.getId() + "\t" + student.getFirstName() + "\t\t" + student.getLastName()
+                    + "  \t\t" + student.getCourse() + "\t\t\t\t" + student.getAcademicPerformance() + "\n");
+        }
+        return output;
     }
 }

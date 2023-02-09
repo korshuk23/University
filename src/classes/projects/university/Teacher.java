@@ -4,8 +4,8 @@ public class Teacher extends Person {
     private String faculty;
     private String academicDegree;
 
-    public Teacher(int id, String firstName, String lastName, String faculty, String academicDegree) {
-        super(id, firstName, lastName);
+    public Teacher(String firstName, String lastName, String faculty, String academicDegree) {
+        super(firstName, lastName);
         this.faculty = faculty;
         this.academicDegree = academicDegree;
     }
@@ -25,5 +25,6 @@ public class Teacher extends Person {
     public void setAcademicDegree(String academicDegree) {
         this.academicDegree = academicDegree;
     }
+
 
 }
